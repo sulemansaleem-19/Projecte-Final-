@@ -1,1 +1,48 @@
 /* Fitxer CSS estudiants */
+
+#resultats {
+  background-color: rgb(186, 255, 180);  
+  padding: 20px;
+  border-radius: 10px;         
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); 
+  max-width: 600px;
+  margin: 20px auto;
+  font-family: sans-serif;
+  color: #000000;
+}
+
+#resultats form {
+  display: flex;
+  flex-direction: column;
+  gap: 0px;  
+}
+
+#resultats select {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #000000;
+}
+
+#resultats p {
+  background-color: #e8f5e9;
+  padding: 10px;
+  border-left: 5px solid #4CAF50;
+  border-radius: 5px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+#resultats ul {
+  list-style-type: none; 
+}
+
+#resultats ul li {
+  background-color: #e8f5e9;
+  padding: 15px;
+  border: 1px solid #bdbdbd;
+  border-left: 5px solid #4CAF50;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}

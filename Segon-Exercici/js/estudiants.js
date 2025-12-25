@@ -12,14 +12,23 @@
 document.getElementById("exer01").onclick = exercici01;
 document.getElementById("exer02").onclick = exercici02;
 document.getElementById("exer03").onclick = exercici03;
+document.getElementById("exer04").onclick = exercici04;
 
 function exercici01() {
   let text = document.getElementById("resultats");
-  text.innerHTML = "Nombre total d’accidents: " + obj.length;
+  text.innerHTML= "";
+
+  let paragraf = document.createElement("p");
+  let tNparagraf = document.createTextNode("Nombre total d’accidents: " + obj.length);
+  paragraf.appendChild(tNparagraf);
+  
+  text.appendChild(paragraf);
 }
 
 function exercici02() {
   let text = document.getElementById("resultats");
+  text.innerHTML= "";
+
   let dias = [];
   for (let i = 0; i < obj.length; i++) {
     dias.push(obj[i].diaSet);
@@ -84,7 +93,14 @@ function exercici02() {
     max = diumenge; 
     maxDia = "Diumenge"; 
   }
-  text.innerHTML = "Dia de la setmana amb més accidents " + maxDia + " amb " + max + " accidents";
+
+  let paragraf1 = document.createElement("p");
+  let tNparagraf1 = document.createTextNode("Dia de la setmana amb més accidents " + maxDia + " amb " + max + " accidents");
+  paragraf1.appendChild(tNparagraf1);
+  
+  text.appendChild(paragraf1);
+
+
 }
 
 
@@ -213,6 +229,85 @@ function exercici03() {
 
 
 function exercici04() {
-   
+  creaFormulari();
 }
 
+function creaFormulari() {
+  let text = document.getElementById("resultats");
+  text.innerHTML = ""; 
+
+ 
+  let form = document.createElement("form");
+
+ 
+  let sel = document.createElement("select");
+  sel.id = "districtes";
+
+  let opGuia = document.createElement("option");
+  let tNguia = document.createTextNode("Escolleix un districte..."); 
+  opGuia.appendChild(tNguia );
+  opGuia.selected = true;                   
+  opGuia.disabled = true; 
+  sel.appendChild(opGuia);
+
+
+
+  for (let i = 1; i <= 10; i++) {
+    let op = document.createElement("option");
+    let tOp = document.createTextNode("Districte " + i);
+    op.appendChild(tOp);
+    op.value = i;
+    sel.appendChild(op);
+  }
+
+  let opAltres = document.createElement("option");
+  let tAltres = document.createTextNode("Altres");
+  opAltres.appendChild(tAltres);
+  opAltres.value = -1;
+  sel.appendChild(opAltres);
+
+  sel.addEventListener("change", comptaAccidents);
+
+ 
+  form.appendChild(sel);
+
+  
+  text.appendChild(form);
+}
+
+function comptaAccidents() {
+  let text = document.getElementById("resultats");
+  
+  let llista = document.getElementById("districtes");
+  
+  let indexSeleccionat = llista.selectedIndex;
+ 
+  let opcioSeleccionada = llista.options[indexSeleccionat];
+
+  let textSeleccionat = opcioSeleccionada.text;
+  let valorSeleccionat = opcioSeleccionada.value;
+  
+  let districte = parseInt(valorSeleccionat); 
+  
+  let comptador = 0;
+
+  let dist = []; 
+  for (let i = 0; i < obj.length; i++) { 
+    dist.push(obj[i].nDist); 
+  }
+
+  for (let i = 0; i < dist.length; i++) {
+    if (dist[i] === districte) {
+      comptador++;
+    }
+  }
+
+  
+  let p = document.createElement("p");
+  p.appendChild(
+    document.createTextNode(
+      "Nombre d’accidents al " + textSeleccionat + ": " + comptador
+    )
+  );
+  text.appendChild(p);
+}
