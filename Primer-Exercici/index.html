@@ -1,23 +1,61 @@
 <!DOCTYPE html>
-<html lang="ca">
-<head><meta charset="UTF-8"><title>PAI Projecte</title><link rel="stylesheet" href="style.css"></head>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario con Validación</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
 <body>
-<div class="container">
-    <h1>Formulari PAI</h1>
-    <form id="form">
-        <label>Nom: <input type="text" id="nom"></label><br>
-        <label>Edat: <select id="edat"><option value="">--</option><option selected>18-25</option><option>26-40</option><option>41-55</option><option>56-65</option><option>65+</option></select></label><br>
-        <label>Codi Postal: <input type="text" id="cp" maxlength="5"></label><br>
-        <label>Email: <input type="text" id="email"></label><br>
-        <label>Password: <input type="password" id="pass"></label>
-        <button type="button" onclick="mostrarPass()">👁</button><br>
-        <label>Confirmar: <input type="password" id="pass2"></label><br>
-        <label><input type="checkbox" id="privacy"> Accepto política</label><br>
-        <button type="button" onclick="borrar()">Esborrar</button>
-        <button type="button" onclick="enviar()">Enviar</button>
-    </form>
-    <div id="result"></div>
-</div>
+
+<h2>Formulario de Registro</h2>
+
+<form id="registerForm">
+
+    <label>Nombre</label>
+    <input type="text" id="name" required>
+
+    <label>Rango de edad</label>
+    <select id="age">
+        <option value="">Selecciona una opció</option>
+        <option value="18-25">18-25</option>
+        <option value="26-35">26-35</option>
+        <option value="36+">36+</option>
+    </select>
+
+    <label>Código postal</label>
+    <input type="text" id="zip">
+
+    <label>Correo electrónico</label>
+    <input type="email" id="email">
+
+    <label>Contraseña</label>
+    <input type="password" id="password">
+    <button type="button" onclick="togglePassword('password')">
+        Mostrar / Ocultar
+    </button>
+
+    <label>Confirmar contraseña</label>
+    <input type="password" id="confirmPassword">
+    <button type="button" onclick="togglePassword('confirmPassword')">
+        Mostrar / Ocultar
+    </button>
+
+    <label class="checkbox">
+        <input type="checkbox" id="privacy">
+        Acepto la política de privacidad
+    </label>
+
+    <div class="buttons">
+        <button type="reset">Limpiar</button>
+        <button type="submit">Enviar</button>
+    </div>
+
+    <p id="message"></p>
+
+</form>
+
 <script src="script.js"></script>
 </body>
 </html>
+
+
