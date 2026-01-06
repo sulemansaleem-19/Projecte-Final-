@@ -1,172 +1,66 @@
-// Variables
-const form = document.getElementById('myForm');
-const specialChars = ['@','#','$','%','^','&','*','(',')','_','+','[',']','{','}','|',';',':',',','.','<','>','/','?','\\'];
+// Variables globales
+const esp = ['@','#','$','%','^','&','*','(',')','_','+','[',']','{','}','|',';',':',',','.','<','>','/','?','\\'];
 
-// Función principal para inicializar todo
-function init() {
-    // Event listeners para mostrar/ocultar contraseñas
-    document.querySelectorAll('.show-password').forEach(btn => {
-        btn.addEventListener('click', e => {
-            const input = e.target.parentElement.querySelector('input');
-            input.type = input.type === 'password' ? 'text' : 'password';
-        });
-    });
-
-    // Validación en tiempo real
-    document.querySelectorAll('#name, #postal, #email, #password, #confirmPass').forEach(input => {
-        input.addEventListener('input', validateField);
-        input.addEventListener('blur', validateField);
-    });
+// Validaciones básicas
+function validar() {
+    let ok = true;
     
-    document.getElementById('age').addEventListener('change', validateField);
-    document.getElementById('privacy').addEventListener('change', validateField);
-
-    // Botones
-    document.getElementById('clearBtn').addEventListener('click', clearForm);
-    document.getElementById('submitBtn').addEventListener('click', submitForm);
-}
-
-// Validar campo individual
-function validateField(e) {
-    const field = e.target;
-    const id = field.id;
-    const value = field.value;
-    let isValid = true;
-    let message = '';
-
-    switch(id) {
-        case 'name':
-            if (!value.trim()) {
-                message = 'Camp obligatori';
-                isValid = false;
-            } else {
-                // Capitalizar automáticamente
-                field.value = value.toLowerCase().replace(/\b\w/g, l => l.toUpperCase());
-            }
-            break;
-
-        case 'age':
-            if (!value) {
-                message = 'Selecciona una opció';
-                isValid = false;
-            }
-            break;
-
-        case 'postal':
-            if (!/^\d{5}$/.test(value)) {
-                message = '5 dígits exactes';
-                isValid = false;
-            }
-            break;
-
-        case 'email':
-            if (!value.includes('@') || value.split('@').length !== 2 || 
-                !value.split('@')[1].includes('.')) {
-                message = 'Format invàlid';
-                isValid = false;
-            }
-            break;
-
-        case 'password':
-            const passValid = validatePassword(value);
-            if (!passValid) {
-                message = 'No compleix requisits';
-                isValid = false;
-            }
-            break;
-
-        case 'confirmPass':
-            if (value !== document.getElementById('password').value) {
-                message = 'No coincideix';
-                isValid = false;
-            }
-            break;
-
-        case 'privacy':
-            if (!field.checked) {
-                message = 'Has d\'acceptar';
-                isValid = false;
-            }
+    // Nombre: capitalizar
+    const nom = document.getElementById('nom');
+    if (nom.value) nom.value = nom.value.toLowerCase().replace(/\b\w/g, c=>c.toUpperCase());
+    
+    // Código postal: 5 dígitos
+    const cp = document.getElementById('cp');
+    if (!/^\d{5}$/.test(cp.value)) { cp.className='error'; ok=false; } else cp.className='ok';
+    
+    // Email: tiene @ y punto después
+    const email = document.getElementById('email');
+    const at = email.value.indexOf('@');
+    if (at<1 || email.value.indexOf('.',at)<at+2) { email.className='error'; ok=false; } else email.className='ok';
+    
+    // Contraseña: requisitos
+    const pass = document.getElementById('pass').value;
+    let mayus=false, minus=false, nums=0, especial=false;
+    for(let c of pass) {
+        if(c>='A'&&c<='Z') mayus=true;
+        else if(c>='a'&&c<='z') minus=true;
+        else if(c>='0'&&c<='9') nums++;
+        else if(esp.includes(c)) especial=true;
     }
-
-    // Actualizar UI
-    const errorElement = document.getElementById(id + 'Error');
-    errorElement.textContent = message;
-    field.classList.toggle('valid', isValid && value);
-    field.classList.toggle('invalid', !isValid && value);
-
-    return isValid;
+    if(pass.length<8 || !mayus || !minus || nums<2 || !especial) {
+        document.getElementById('pass').className='error';
+        ok=false;
+    } else document.getElementById('pass').className='ok';
+    
+    // Confirmar contraseña
+    const pass2 = document.getElementById('pass2');
+    if(pass2.value !== pass) { pass2.className='error'; ok=false; } else pass2.className='ok';
+    
+    // Política
+    if(!document.getElementById('privacy').checked) ok=false;
+    
+    return ok;
 }
 
-// Validar contraseña completa
-function validatePassword(pass) {
-    if (pass.length < 8) return false;
-    
-    let hasUpper = false, hasLower = false, digits = 0, hasSpecial = false;
-    
-    for (let char of pass) {
-        if (char >= 'A' && char <= 'Z') hasUpper = true;
-        else if (char >= 'a' && char <= 'z') hasLower = true;
-        else if (char >= '0' && char <= '9') digits++;
-        else if (specialChars.includes(char)) hasSpecial = true;
+// Funciones simples
+function mostrarPass() {
+    const p = document.getElementById('pass');
+    p.type = p.type==='password'?'text':'password';
+}
+
+function borrar() {
+    document.getElementById('form').reset();
+    document.querySelectorAll('input,select').forEach(e=>e.className='');
+    document.getElementById('result').innerHTML='';
+}
+
+function enviar() {
+    if(validar()) {
+        document.getElementById('result').innerHTML = 
+            `<h3>✅ Formulari correcte!</h3><p>Nom: ${document.getElementById('nom').value}<br>
+            Email: ${document.getElementById('email').value}<br>
+            CP: ${document.getElementById('cp').value}</p>`;
+    } else {
+        alert('Corregeix els errors!');
     }
-    
-    return hasUpper && hasLower && digits >= 2 && hasSpecial;
 }
-
-// Validar todo el formulario
-function validateAll() {
-    let isValid = true;
-    
-    ['name', 'age', 'postal', 'email', 'password', 'confirmPass'].forEach(id => {
-        const field = document.getElementById(id);
-        if (!validateField({target: field})) isValid = false;
-    });
-    
-    const privacyChecked = document.getElementById('privacy').checked;
-    if (!privacyChecked) {
-        document.getElementById('privacyError').textContent = 'Has d\'acceptar';
-        isValid = false;
-    }
-    
-    return isValid;
-}
-
-// Borrar formulario
-function clearForm() {
-    form.reset();
-    document.getElementById('age').value = '0-17';
-    document.querySelectorAll('.error').forEach(el => el.textContent = '');
-    document.querySelectorAll('input, select').forEach(el => {
-        el.classList.remove('valid', 'invalid');
-    });
-    document.getElementById('output').innerHTML = '';
-}
-
-// Enviar formulario
-function submitForm() {
-    if (!validateAll()) {
-        alert('Corregeix els errors abans d\'enviar');
-        return;
-    }
-
-    const data = {
-        nom: document.getElementById('name').value,
-        edat: document.getElementById('age').options[document.getElementById('age').selectedIndex].text,
-        postal: document.getElementById('postal').value,
-        email: document.getElementById('email').value,
-        data: new Date().toLocaleString('ca-ES')
-    };
-
-    let html = `<p style="color:green">Formulari enviat correctament!</p>`;
-    html += '<ul>';
-    for (let key in data) {
-        html += `<li><strong>${key}:</strong> ${data[key]}</li>`;
-    }
-    html += '</ul>';
-
-    document.getElementById('output').innerHTML = html;
-}
-
-// Inicializar cuando cargue la página
-document.addEventListener('DOMContentLoaded', init);
