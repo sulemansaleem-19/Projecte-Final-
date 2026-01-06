@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projecte PAI - Formulari de Registre</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-user-edit"></i> Formulari de Registre</h1>
+            <p class="subtitle">Projecte de Programació d'Aplicacions a Internet</p>
+        </header>
+
+        <main>
+            <form id="registrationForm">
+                <!-- Nom i cognoms -->
+                <div class="form-group">
+                    <label for="fullName">
+                        <i class="fas fa-user"></i> Nom i cognoms *
+                    </label>
+                    <input type="text" id="fullName" name="fullName" 
+                           placeholder="Escriu el teu nom i cognoms">
+                    <div class="hint">La primera lletra de cada paraula es posarà en majúscula automàticament</div>
+                    <span class="error-message" id="nameError"></span>
+                </div>
+
+                <!-- Rang d'edats -->
+                <div class="form-group">
+                    <label for="ageRange">
+                        <i class="fas fa-birthday-cake"></i> Rang d'edats *
+                    </label>
+                    <select id="ageRange" name="ageRange">
+                        <option value="">Selecciona una opció</option>
+                        <option value="0-17">0-17 anys</option>
+                        <option value="18-25">18-25 anys</option>
+                        <option value="26-40" selected>26-40 anys</option>
+                        <option value="41-55">41-55 anys</option>
+                        <option value="56-65">56-65 anys</option>
+                        <option value="65+">Més de 65 anys</option>
+                    </select>
+                    <span class="error-message" id="ageError"></span>
+                </div>
+
+                <!-- Codi postal -->
+                <div class="form-group">
+                    <label for="postalCode">
+                        <i class="fas fa-mail-bulk"></i> Codi postal *
+                    </label>
+                    <input type="text" id="postalCode" name="postalCode" 
+                           placeholder="5 dígits (ex: 08001)" maxlength="5">
+                    <span class="error-message" id="postalError"></span>
+                </div>
+
+                <!-- Correu electrònic -->
+                <div class="form-group">
+                    <label for="email">
+                        <i class="fas fa-envelope"></i> Correu electrònic *
+                    </label>
+                    <input type="text" id="email" name="email" 
+                           placeholder="exemple@domini.com">
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <!-- Contrasenya -->
+                <div class="form-group">
+                    <label for="password">
+                        <i class="fas fa-lock"></i> Contrasenya *
+                    </label>
+                    <div class="password-container">
+                        <input type="password" id="password" name="password" 
+                               placeholder="Mínim 8 caràcters">
+                        <button type="button" id="togglePassword" class="toggle-btn">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="hint">
+                        Ha de contenir: majúscules, minúscules, 2 dígits i 1 caràcter especial
+                    </div>
+                    <div class="password-requirements">
+                        <div class="requirement" id="reqLength"><i class="fas fa-circle"></i> 8 caràcters</div>
+                        <div class="requirement" id="reqUpper"><i class="fas fa-circle"></i> Majúscula</div>
+                        <div class="requirement" id="reqLower"><i class="fas fa-circle"></i> Minúscula</div>
+                        <div class="requirement" id="reqDigits"><i class="fas fa-circle"></i> 2 dígits</div>
+                        <div class="requirement" id="reqSpecial"><i class="fas fa-circle"></i> Caràcter especial</div>
+                    </div>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <!-- Confirmar contrasenya -->
+                <div class="form-group">
+                    <label for="confirmPassword">
+                        <i class="fas fa-lock"></i> Confirmar contrasenya *
+                    </label>
+                    <div class="password-container">
+                        <input type="password" id="confirmPassword" name="confirmPassword" 
+                               placeholder="Torna a escriure la contrasenya">
+                        <button type="button" id="toggleConfirmPassword" class="toggle-btn">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+
+                <!-- Política de privacitat -->
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="privacyPolicy" name="privacyPolicy">
+                    <label for="privacyPolicy">
+                        Accepto la política de privacitat i les condicions d'ús *
+                    </label>
+                    <span class="error-message" id="privacyError"></span>
+                </div>
+
+                <!-- Botons -->
+                <div class="button-group">
+                    <button type="button" id="clearButton" class="btn btn-secondary">
+                        <i class="fas fa-trash-alt"></i> Esborrar tot
+                    </button>
+                    <button type="button" id="submitButton" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Enviar formulari
+                    </button>
+                </div>
+            </form>
+
+            <!-- Resultats -->
+            <div id="results" class="results-container">
+                <h2><i class="fas fa-check-circle"></i> Resultats del formulari</h2>
+                <div id="resultsContent" class="results-content">
+                    <p class="placeholder">Els resultats es mostraran aquí després d'enviar el formulari</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Projecte PAI - Curs 2024-25</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
