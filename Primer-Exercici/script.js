@@ -1,78 +1,145 @@
-// Obtener elementos del formulario
-const form = document.getElementById("registerForm");
-const message = document.getElementById("message");
+// Función para poner la primera letra de cada palabra en mayúscula
+document.getElementById("nom").addEventListener("input", UpperCase);
 
-// Nombre: primera letra de cada palabra en mayúscula
-document.getElementById("name").addEventListener("input", function () {
-    let words = this.value.toLowerCase().split(" ");
-    let formatted = words.map(word =>
-        word ? word[0].toUpperCase() + word.slice(1) : ""
-    );
-    this.value = formatted.join(" ");
-});
+function UpperCase() {
+    let input = document.getElementById("nom");
+    let text = input.value.toLowerCase();
+    let resultat = "";
+    let novaParaula = true;
 
-// Mostrar / Ocultar contraseña
-function togglePassword(id) {
-    const field = document.getElementById(id);
-    field.type = field.type === "password" ? "text" : "password";
-}
+    for (let i = 0; i < text.length; i++) {
+        if (novaParaula && text[i] !== " ") {
+            resultat += text[i].toUpperCase();
+            novaParaula = false;
+        } else {
+            resultat += text[i];
+        }
 
-// Validar código postal (5 números)
-function validZip(zip) {
-    if (zip.length !== 5) return false;
-    return [...zip].every(char => char >= "0" && char <= "9");
-}
-
-// Validar correo electrónico
-function validEmail(email) {
-    let atPos = email.indexOf("@");
-    if (atPos === -1) return false;
-    let domain = email.slice(atPos + 1);
-    return domain.includes(".");
-}
-
-// Validar contraseña
-function validPassword(password) {
-    if (password.length < 8) return false;
-
-    let upper = false;
-    let lower = false;
-    let numbers = 0;
-    let special = false;
-
-    for (let char of password) {
-        if (char >= "A" && char <= "Z") upper = true;
-        else if (char >= "a" && char <= "z") lower = true;
-        else if (char >= "0" && char <= "9") numbers++;
-        else special = true;
+        if (text[i] === " ") {
+            novaParaula = true;
+        }
     }
 
-    return upper && lower && numbers >= 2 && special;
+    input.value = resultat;
 }
 
-// Validación final del formulario
-form.addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const age = document.getElementById("age").value;
-    const zip = document.getElementById("zip").value;
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    const confirm = document.getElementById("confirmPassword").value;
-    const privacy = document.getElementById("privacy").checked;
-
-    if (
-        age &&
-        validZip(zip) &&
-        validEmail(email) &&
-        validPassword(password) &&
-        password === confirm &&
-        privacy
-    ) {
-        message.textContent = "✅ Formulario enviado correctamente";
-        message.style.color = "green";
+// Mostrar u ocultar contraseña
+function mostrarPass(id) {
+    let camp = document.getElementById(id);
+    if (camp.type === "password") {
+        camp.type = "text";
     } else {
-        message.textContent = "❌ Revisa los campos del formulario";
-        message.style.color = "red";
+        camp.type = "password";
     }
-});
+}
+
+// Función principal de validación
+function validar() {
+
+    let correcte = true;
+
+    // EDAT
+    let edat = document.getElementById("edat");
+    if (edat.value === "") {
+        edat.className = "error";
+        correcte = false;
+    } else {
+        edat.className = "correcte";
+    }
+
+    // CODI POSTAL (5 dígits)
+    let cp = document.getElementById("cp");
+    
+    if (cp.value.length !== 5 || isNaN(cp.value)) {
+    cp.className = "error";
+    correcte = false;
+    } else {
+    cp.className = "correcte";
+    }
+
+    // EMAIL
+    let email = document.getElementById("email").value;
+    let arrova = email.indexOf("@");
+    let punt = email.indexOf(".", arrova);
+
+    if (arrova < 1 || punt < arrova + 2) {
+        document.getElementById("email").className = "error";
+        correcte = false;
+    } else {
+        document.getElementById("email").className = "correcte";
+    }
+
+    // CONTRASENYA
+    let passInput = document.getElementById("pass");
+    let pass = passInput.value;
+    
+    let teMajuscula = false;
+    let teMinuscula = false;
+    let digits = 0;
+    let teEspecial = false;
+    let especials = "!@#$%^&*()_+-=[]{};:|,.<>/?";
+    
+    for (let i = 0; i < pass.length; i++) {
+        
+        let c = pass[i];
+
+        if (c >= "A" && c <= "Z") {
+        teMajuscula = true;
+        }     
+        else if (c >= "a" && c <= "z") {
+        teMinuscula = true; 
+        }   
+        else if (c >= "0" && c <= "9") {
+            digits++;
+        }   
+        else if (especials.indexOf(c) !== -1) {
+            teEspecial = true;
+        }
+}
+
+// Comprovació final
+if (pass.length < 8 || !teMajuscula || !teMinuscula || digits < 2 || !teEspecial) {
+    passInput.className = "error";
+    correcte = false;
+} else {
+    passInput.className = "correcte";
+}
+
+// CONFIRMAR CONTRASENYA
+let pass2 = document.getElementById("pass2");
+
+if (pass2.value !== pass) {
+    pass2.className = "error";
+    correcte = false;
+} else {
+    pass2.className = "correcte";
+}
+
+// CHECKBOX
+let checkbox = document.getElementById("privacitat");
+
+if (!checkbox.checked) {
+    correcte = false;
+}
+
+    return correcte;
+}
+
+// Botón borrar
+function borrar() {
+    document.getElementById("formulari").reset();
+    document.getElementById("resultat").innerHTML = "";
+}
+
+// Botón enviar
+function enviar() {
+    if (validar()) {
+        document.getElementById("resultat").innerHTML =
+            "Formulari emplenat correctament<br><br>" +
+            "Nom: " + document.getElementById("nom").value + "<br>" +
+            "Email: " + document.getElementById("email").value + "<br>" +
+            "Codi Postal: " + document.getElementById("cp").value;
+    } else {
+        alert("Hi ha errors al formulari");
+    }
+}
