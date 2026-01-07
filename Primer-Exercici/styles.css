@@ -1,14 +1,18 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial;
     background-color: #f2f2f2;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
 }
 
 form {
-    width: 360px;
-    margin: auto;
-    padding: 20px;
     background: white;
-    border-radius: 6px;
+    padding: 20px;
+    width: 400px;
+    margin: auto;
 }
 
 label {
@@ -18,18 +22,28 @@ label {
 
 input, select {
     width: 100%;
-    padding: 6px;
+    padding: 5px;
 }
 
 button {
-    margin-top: 8px;
+    margin-top: 10px;
 }
 
-.checkbox {
-    margin-top: 15px;
+.error {
+    border: 2px solid red;
 }
 
-#message {
-    margin-top: 15px;
+.correcte {
+    border: 2px solid green;
+}
+
+#resultat {
+    margin-top: 20px;
+    background-color: #065300;   
+    color: #000000;              
+    padding: 15px;
+    text-align: center;
     font-weight: bold;
+    border-radius: 5px;
+    
 }
