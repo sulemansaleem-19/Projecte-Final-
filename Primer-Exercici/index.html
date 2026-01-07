@@ -1,61 +1,66 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="ca">
 <head>
     <meta charset="UTF-8">
-    <title>Formulario con Validación</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Formulari PAI</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h2>Formulario de Registro</h2>
+<h1>Formulari</h1>
 
-<form id="registerForm">
+<form id="formulari">
 
-    <label>Nombre</label>
-    <input type="text" id="name" required>
+    
+    <label>Nom i cognoms</label>
+    <input type="text" id="nom">
 
-    <label>Rango de edad</label>
-    <select id="age">
+    
+    <label>Rang d’edats</label>
+    <select id="edat">
         <option value="">Selecciona una opció</option>
-        <option value="18-25">18-25</option>
-        <option value="26-35">26-35</option>
-        <option value="36+">36+</option>
+        <option>0-17</option>
+        <option>18-25</option>
+        <option>26-40</option>
+        <option>41-55</option>
+        <option>56-65</option>
+        <option>Més de 65</option>
     </select>
 
-    <label>Código postal</label>
-    <input type="text" id="zip">
+    
+    <label>Codi postal</label>
+    <input type="text" id="cp">
 
-    <label>Correo electrónico</label>
-    <input type="email" id="email">
+    
+    <label>Correu electrònic</label>
+    <input type="text" id="email">
 
-    <label>Contraseña</label>
-    <input type="password" id="password">
-    <button type="button" onclick="togglePassword('password')">
-        Mostrar / Ocultar
-    </button>
+   
+    <label>Contrasenya</label>
+    <input type="password" id="pass">
+    <button type="button" onclick="mostrarPass('pass')">Mostrar/Ocultar</button>
 
-    <label>Confirmar contraseña</label>
-    <input type="password" id="confirmPassword">
-    <button type="button" onclick="togglePassword('confirmPassword')">
-        Mostrar / Ocultar
-    </button>
+   
+    <label>Confirmar contrasenya</label>
+    <input type="password" id="pass2">
+    <button type="button" onclick="mostrarPass('pass2')">Mostrar/Ocultar</button>
 
-    <label class="checkbox">
-        <input type="checkbox" id="privacy">
-        Acepto la política de privacidad
+    
+    <label>
+        <input type="checkbox" id="privacitat" required>
+        Accepto la política de privacitat
     </label>
 
-    <div class="buttons">
-        <button type="reset">Limpiar</button>
-        <button type="submit">Enviar</button>
-    </div>
+    <br><br>
 
-    <p id="message"></p>
+   
+    <button type="button" onclick="borrar()">Esborrar</button>
+    <button type="button" onclick="enviar()">Enviar</button>
 
 </form>
+
+<div id="resultat"></div>
 
 <script src="script.js"></script>
 </body>
 </html>
-
-
